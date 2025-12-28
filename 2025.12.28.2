@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页 - 交互版</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; transition: background-color 0.5s ease; }
+        header { background: #2c3e50; color: #fff; padding: 1rem; text-align: center; border-radius: 8px; }
+        section { background: #fff; padding: 20px; margin-top: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn-container { text-align: center; margin-top: 30px; }
+        #colorBtn { background-color: #3498db; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 50px; cursor: pointer; transition: transform 0.2s; }
+        #colorBtn:hover { transform: scale(1.1); background-color: #2980b9; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>交互式网页实验室</h1>
+        <p>这是我练习全栈开发的第一步</p>
+    </header>
+
+    <div class="btn-container">
+        <button id="colorBtn">点我：随机变换背景颜色</button>
+    </div>
+    
+    <section>
+        <h2>原理说明</h2>
+        <p>点击按钮后，浏览器会执行一段 JavaScript 代码：</p>
+        <ol>
+            <li>监听按钮的“点击事件”</li>
+            <li>生成一个随机的十六进制颜色代码</li>
+            <li>通过操作 <strong>DOM</strong> 修改网页背景色</li>
+        </ol>
+    </section>
+
+    <script>
+        const btn = document.getElementById('colorBtn');
+        
+        btn.addEventListener('click', function() {
+            // 生成随机颜色，例如 #A1B2C3
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            // 修改 body 的背景颜色
+            document.body.style.backgroundColor = randomColor;
+            // 顺便改一下按钮文字
+            btn.innerText = '变色成功！当前颜色：' + randomColor;
+        });
+    </script>
+</body>
+</html>
