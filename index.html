@@ -3,40 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人主页</title>
+    <title>我的全栈开发日志</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; }
-        header { background: #2c3e50; color: #fff; padding: 1rem; text-align: center; border-radius: 8px; }
-        section { background: #fff; padding: 20px; margin-top: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 5px; }
-        .footer { text-align: center; margin-top: 30px; font-size: 0.8em; color: #777; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; background-color: #f0f2f5; }
+        .log-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .day-link { display: block; padding: 15px; margin: 15px 0; background: #fff; border: 1px solid #ddd; border-left: 5px solid #3498db; text-decoration: none; color: #333; border-radius: 4px; transition: all 0.3s; }
+        .day-link:hover { transform: translateX(10px); background: #eaf6ff; border-color: #3498db; }
+        .day-title { font-weight: bold; font-size: 1.2em; display: block; }
+        .day-desc { font-size: 0.9em; color: #666; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>欢迎来到我的域名空间</h1>
-        <p>这是我利用 Cloudflare Pages 搭建的第一个站点</p>
-    </header>
-    
-    <section>
-        <h2>关于我</h2>
-        <p>Hello everyone！我是改名楠，一个正在学习全栈开发和网络技术的爱好者。</p>
-        <p>目前我拥有了一个属于自己的域名，并成功托管到了 Cloudflare。</p>
-    </section>
+    <div class="log-container">
+        <h1>🚀 全栈开发学习日志</h1>
+        
+        <a href="day1.html" class="day-link">
+            <span class="day-title">Day 1：初识 HTML & 域名上线</span>
+            <span class="day-desc">学习了如何编写静态 HTML，并在 Cloudflare Pages 上成功绑定域名。</span>
+        </a>
 
-    <section>
-        <h2>我的项目计划</h2>
-        <ul>
-            <li>搭建个人博客系统</li>
-            <li>配置专业域名邮箱</li>
-            <li>探索 Cloudflare Tunnel 内网穿透</li>
-            <li>学习怎么用AI自动化做项目</li>
-            <li>学习怎么在GitHub部署自己的项目</li>
-        </ul>
-    </section>
+        <a href="day2.html" class="day-link">
+            <span class="day-title">Day 2：JavaScript 交互入门</span>
+            <span class="day-desc">学习了 DOM 操作，实现了一个点击随机变换背景颜色的按钮。</span>
+        </a>
 
-    <div class="footer">
-        <p>&copy; 2025.12.28 我的域名版权所有 | 由 Cloudflare Pages 提供动力</p>
+        <div style="text-align: center; margin-top: 40px; color: #999; font-size: 0.8em;">
+            <p>正在持续更新中...</p>
+        </div>
     </div>
 </body>
 </html>
