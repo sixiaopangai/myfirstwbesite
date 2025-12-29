@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2.1 - 域名邮箱配置实录</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; background-color: #f0f2f5; }
+        .log-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* 导航头部 */
+        .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #3498db; padding-bottom: 15px; margin-bottom: 25px; }
+        .back-link { text-decoration: none; color: #3498db; font-weight: bold; font-size: 0.9em; }
+        h1 { color: #2c3e50; margin: 0; font-size: 1.5em; }
+
+        /* 内容板块 */
+        .section { margin-bottom: 30px; }
+        .section h2 { font-size: 1.2em; color: #3498db; border-left: 5px solid #3498db; padding-left: 10px; margin-bottom: 15px; }
+        
+        /* 状态展示 */
+        .status-box { padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 0.9em; }
+        .error { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; }
+        .success { background: #f0fff4; border: 1px solid #9ae6b4; color: #276745; }
+
+        /* 代码展示 */
+        pre { background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+        code { font-family: 'Consolas', monospace; }
+        
+        .footer { text-align: center; margin-top: 40px; color: #999; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+    <div class="log-container">
+        <div class="header">
+            <h1>📧 域名邮箱部署实录</h1>
+            <a href="index.html" class="back-link">← 返回主页</a>
+        </div>
+
+        <div class="section">
+            <h2>1. 初探：Cloudflare 邮件路由</h2>
+            <p>首先在 Cloudflare 开启了<b>电子邮件路由</b>，将 <code>admin@yushenchuanmei.top</code> 转发至 Gmail。这一步解决了“收信”问题，但“发信”时却遇到了巨大的阻碍。</p>
+        </div>
+
+        <div class="section">
+            <h2>2. 遭遇：红色的身份危机</h2>
+            <div class="status-box error">
+                <strong>警告：</strong> 发件人无法验证，可能存在假冒，请谨慎对待。
+            </div>
+            <p>由于直接使用 Gmail 代发，缺乏域名专属的数字签名，邮件被系统判定为高风险。我意识到，必须配置专业的 SMTP 服务和 DKIM 记录。</p>
+        </div>
+
+        <div class="section">
+            <h2>3. 突破：Resend + DNS 优化</h2>
+            <p>通过引入 <b>Resend</b> 服务，我为域名配置了三条 CNAME 记录以激活 <b>DKIM</b>。同时，精准修改了 Cloudflare 的 SPF 和 DMARC 记录：</p>
+            <pre><code>; SPF 记录：授权 Google 与 Resend 代发
+v=spf1 include:_spf.mx.cloudflare.net include:spf.resend.com ~all
+
+; DMARC 记录：放宽策略确保送达
+v=DMARC1; p=none; rua=mailto:yushenchuanmei@gmail.com</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>4. 结果：完美的发信身份</h2>
+            <div class="status-box success">
+                <strong>达成：</strong> 安全验证通过，红色警告消失，发件人身份现已合法。
+            </div>
+            <p>现在，我可以用 <code>admin@yushenchuanmei.top</code> 自由、专业地与外界交流了！</p>
+        </div>
+
+        <div class="footer">
+            <p>记录日期: 2025年12月29日 | 硬件支持: Acer Predator PHN16-71</p>
+        </div>
+    </div>
+</body>
+</html>
