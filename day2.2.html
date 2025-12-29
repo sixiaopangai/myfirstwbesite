@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2.2 - VPS 自动化安全防线</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 40px 20px; background-color: #f0f2f5; }
+        .log-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        /* 导航头部 */
+        .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #3498db; padding-bottom: 15px; margin-bottom: 25px; }
+        .back-link { text-decoration: none; color: #3498db; font-weight: bold; font-size: 0.9em; }
+        h1 { color: #2c3e50; margin: 0; font-size: 1.5em; }
+
+        /* 内容板块 */
+        .section { margin-bottom: 30px; }
+        .section h2 { font-size: 1.2em; color: #3498db; border-left: 5px solid #3498db; padding-left: 10px; margin-bottom: 15px; }
+        
+        /* 状态展示 */
+        .status-box { padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 0.9em; }
+        .warning { background: #fffaf0; border: 1px solid #fbd38d; color: #9c4221; }
+        .success { background: #f0fff4; border: 1px solid #9ae6b4; color: #276745; }
+        .tip { background: #ebf8ff; border: 1px solid #90cdf4; color: #2c5282; }
+
+        /* 代码展示 */
+        pre { background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 0.85em; }
+        code { font-family: 'Consolas', monospace; }
+        
+        .footer { text-align: center; margin-top: 40px; color: #999; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+    <div class="log-container">
+        <div class="header">
+            <h1>🚨 VPS SSH 登录报警系统</h1>
+            <a href="index.html" class="back-link">← 返回主页</a>
+        </div>
+
+        <div class="section">
+            <h2>1. 工具链搭建：msmtp + Resend</h2>
+            <p>为了让 VPS 具备“说话”的能力，我选择了轻量级的 <b>msmtp</b> 作为发信代理。在安装过程中，为了避免不必要的权限阻塞，我选择了跳过 AppArmor 配置。</p>
+            <div class="tip">
+                <strong>关键配置：</strong> 必须在 <code>~/.msmtprc</code> 中正确填入 Resend 的 API Key，并设置权限为 <code>600</code>，否则系统会出于安全原因拒绝读取。
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2. 自动化脚本：登录即报警</h2>
+            <p>通过在 <code>/etc/profile.d/</code> 目录下编写 Shell 脚本，实现了每次 SSH 登录自动触发邮件通知。</p>
+            <pre><code># 核心发信逻辑
+printf "To: root@vps.yushenchuanmei.top\nSubject: 🚨 SSH 登录提醒: $USER 访问了 VPS\n\n时间: $LOGIN_DATE\n来源 IP: $LOGIN_IP" | msmtp root@vps.yushenchuanmei.top</code></pre>
+        </div>
+
+        <div class="section">
+            <h2>3. 排障历程：从 Bounced 到 Success</h2>
+            <p>配置过程并非一帆风顺，我遇到了两个全栈开发中非常经典的“坑”：</p>
+            <ul>
+                <li><b>SMTP 450 错误</b>：由于邮件头缺少必要的换行符，Resend 报错 <i>"The 'to' field must be a 'string'"</i>。通过改用 <code>printf</code> 严格控制格式解决。</li>
+                <li><b>抑制列表 (Suppression List)</b>：由于最初没开通 Cloudflare 的 Catch-all 功能导致退信，Resend 自动将我的邮箱封锁。手动从 <b>Suppression List</b> 移除后才恢复正常。</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>4. 最终成果</h2>
+            <div class="status-box success">
+                <strong>达成：</strong> 现在每当有远程访问时，我的手机都会立刻收到来自 <code>admin@yushenchuanmei.top</code> 的详细报警邮件。
+            </div>
+            <p>这套系统利用了 Cloudflare 邮件路由、Resend SMTP 以及 Linux 系统脚本，构建了一道坚实的运维防线。</p>
+        </div>
+
+        <div class="footer">
+            <p>记录日期: 2025年12月29日 | 运维支持: root@lhy-vps</p>
+        </div>
+    </div>
+</body>
+</html>
