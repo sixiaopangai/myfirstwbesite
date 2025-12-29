@@ -12,6 +12,36 @@
         .day-link:hover { transform: translateX(10px); background: #eaf6ff; border-color: #3498db; }
         .day-title { font-weight: bold; font-size: 1.2em; display: block; }
         .day-desc { font-size: 0.9em; color: #666; }
+        /* 联系我模块容器 */
+.contact-section {
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1px solid #e1e4e8;
+    text-align: center;
+}
+
+/* 按钮样式 */
+.contact-button {
+    display: inline-block;
+    background-color: #3498db; /* 沿用你标题的蓝色 */
+    color: white !important;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.contact-button:hover {
+    background-color: #2980b9;
+}
+
+.contact-info {
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #666;
+}
     </style>
 </head>
 <body>
@@ -36,6 +66,17 @@
         <div style="text-align: center; margin-top: 40px; color: #999; font-size: 0.8em;">
             <p>正在持续更新中...</p>
         </div>
+
+        <div class="contact-section">
+            <p style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">有任何技术交流或合作意向？</p>
+            <a href="mailto:admin@yushenchuanmei.top" class="contact-button">
+                ✉️ 发送邮件给我
+            </a>
+    
+        <div class="contact-info">
+        官方邮箱: admin@yushenchuanmei.top
+    </div>
+</div>
     </div>
 </body>
 </html>
