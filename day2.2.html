@@ -49,7 +49,7 @@
             <h2>2. 自动化脚本：登录即报警</h2>
             <p>通过在 <code>/etc/profile.d/</code> 目录下编写 Shell 脚本，实现了每次 SSH 登录自动触发邮件通知。</p>
             <pre><code># 核心发信逻辑
-printf "To: root@vps.yushenchuanmei.top\nSubject: 🚨 SSH 登录提醒: $USER 访问了 VPS\n\n时间: $LOGIN_DATE\n来源 IP: $LOGIN_IP" | msmtp root@vps.yushenchuanmei.top</code></pre>
+printf "To: xxxxxxxx\nSubject: 🚨 SSH 登录提醒: $USER 访问了 VPS\n\n时间: $LOGIN_DATE\n来源 IP: $LOGIN_IP" | msmtp xxxxxxxx</code></pre>
         </div>
 
         <div class="section">
@@ -70,7 +70,7 @@ printf "To: root@vps.yushenchuanmei.top\nSubject: 🚨 SSH 登录提醒: $USER �
         </div>
 
         <div class="footer">
-            <p>记录日期: 2025年12月29日 | 运维支持: root@lhy-vps</p>
+            <p>记录日期: 2025年12月29日 | 运维支持: xxx</p>
         </div>
     </div>
 </body>
