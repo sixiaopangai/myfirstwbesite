@@ -3,99 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java Web 项目文件夹系统规划</title>
+    <title>Day 3.1 - Java Web 全栈管理体系</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
-        header { background: #2c3e50; color: #fff; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 30px; }
-        h2 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 10px; margin-top: 30px; }
-        .container { background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        code { background: #f8f8f8; border: 1px solid #ddd; padding: 2px 5px; border-radius: 4px; font-family: Consolas, monospace; }
-        pre { background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 14px; }
-        .directory-tree { color: #55efc4; }
-        .ide-tag { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; margin-right: 5px; font-weight: bold; }
-        .idea { background: #fb3e3e; color: white; }
-        .cursor { background: #3d3d3d; color: white; }
-        .tip { background: #e1f5fe; border-left: 5px solid #03a9f4; padding: 15px; margin: 20px 0; border-radius: 4px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
-        th { background-color: #f2f2f2; }
+        /* 延续主站的深色科技风格 */
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary-blue: #38bdf8;
+            --accent-cyan: #a5f3fc;
+            --text-main: #e2e8f0;
+            --text-dim: #94a3b8;
+            --code-border: #0ea5e9;
+            --success-green: #22c55e;
+            --secret-gold: #fbbf24; /* 秘籍专属金 */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background: var(--bg-color);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 50px 24px;
+        }
+
+        /* 文章头部 */
+        .post-header {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 24px;
+            margin-bottom: 40px;
+        }
+
+        .post-title {
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            margin: 0 0 12px 0;
+            letter-spacing: -0.025em;
+        }
+
+        .post-date {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 模块化容器 */
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: var(--accent-cyan);
+            font-size: 1.5rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: "";
+            width: 4px;
+            height: 24px;
+            background: var(--primary-blue);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        /* 秘籍卡片样式 */
+        .secret-box {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed var(--primary-blue);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .secret-title {
+            color: var(--secret-gold);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* 树状图与代码块 */
+        pre {
+            background: #000000;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            color: var(--accent-cyan);
+            border: 1px solid var(--code-border);
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            color: var(--primary-blue);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .folder-tree {
+            color: var(--success-green);
+        }
+
+        /* 列表增强 */
+        ul {
+            padding-left: 20px;
+            list-style: none;
+        }
+
+        ul li {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: "→";
+            position: absolute;
+            left: -20px;
+            color: var(--primary-blue);
+        }
+
+        /* 返回链接 */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 40px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: var(--accent-cyan);
+        }
+
+        .tag {
+            background: #334155;
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
-
-<header>
-    <h1>Java Web 开发工作流 & 文件夹规划</h1>
-    <p>构建高效、整洁、易于 AI 协作的开发环境</p>
-</header>
-
-<div class="container">
-    <h2>1. 物理位置与分层结构</h2>
-    <p>统一存放路径：<code>D:\Workspace\Java-Web\</code></p>
-    <pre class="directory-tree">
-D:\Workspace\Java-Web\
-├── 01_Learning/           # 练习项目、Demo、实验课作业
-├── 02_Active/             # 正在进行的核心开发项目
-├── 03_Templates/          # 存放脚本、README模板、脚手架
-│   ├── clean_project.py   # Python 清理核心
-│   └── 一键清理.bat        # Windows 快捷工具
-└── 04_Archive/            # 已清理垃圾后的“瘦身”归档项目</pre>
-
-    <h2>2. 单个项目内部规范</h2>
-    <p>推荐采用前后端分离结构，方便多个 AI IDE 协同工作：</p>
-    <table>
-        <tr>
-            <th>文件夹</th>
-            <th>职责</th>
-            <th>推荐 IDE / 工具</th>
-        </tr>
-        <tr>
-            <td><code>backend/</code></td>
-            <td>Java 源码、Maven 配置</td>
-            <td><span class="ide-tag idea">IntelliJ IDEA</span></td>
-        </tr>
-        <tr>
-            <td><code>frontend/</code></td>
-            <td>Vue/React 源码、Node 依赖</td>
-            <td><span class="ide-tag cursor">Cursor / Trae</span></td>
-        </tr>
-        <tr>
-            <td><code>sql/</code></td>
-            <td>数据库初始化及变更脚本</td>
-            <td>Navicat / Datagrip</td>
-        </tr>
-        <tr>
-            <td><code>docs/</code></td>
-            <td>项目设计文档、接口定义</td>
-            <td>Typora / Obsidian</td>
-        </tr>
-    </table>
-
-    <h2>3. 自动化清理与归档流</h2>
-    <div class="tip">
-        <strong>归档秘籍：</strong> 在将项目移入 <code>04_Archive</code> 前，务必执行清理脚本。将clean_project.py和一键清理.bat放入想要清理的文件夹下，执行一键清理.bat。执行完即可把项目文件夹放入<code>04_Archive</code>
+    <div class="post-header">
+        <h1 class="post-title">Day 3.1：工程化实战：Java Web 全栈项目管理体系</h1>
+        <div class="post-date">
+            <span>📅 2025年12月30日</span>
+            <span class="tag">Workflow</span>
+            <span class="tag">Automation</span>
+        </div>
     </div>
-    <p>运行脚本将自动删除以下冗余内容，节省 SSD 空间：</p>
-    <ul>
-        <li><code>target/</code> (Java 编译产物)</li>
-        <li><code>node_modules/</code> (前端巨量依赖)</li>
-        <li><code>.idea/</code> & <code>.vscode/</code> (本地 IDE 索引)</li>
-        <li><code>dist/</code> & <code>build/</code> (构建打包结果)</li>
-    </ul>
 
-    <h2>4. 恢复运行命令</h2>
-    <p>当需要从归档中重启项目时，在对应目录下执行：</p>
-    <pre>
-# 后端恢复 (backend/)
-mvn clean install
+    <div class="content-section">
+        <h2>项目背景与痛点</h2>
+        <p>随着开发深入，频繁切换 <code>IntelliJ IDEA</code>、<code>Cursor</code> 和 <code>Trae</code>。手动清理 <code>node_modules</code> 和 <code>target</code> 耗时费力，且归档项目难以二次快速复活。需要一套标准的“自动化”管理逻辑。</p>
+    </div>
 
-# 前端恢复 (frontend/)
-npm install
-npm run dev</pre>
-</div>
+    <div class="content-section">
+        <h2>物理层级规范</h2>
+        <p>在高速 SSD 上建立统一的工作空间，按生命周期划分：</p>
+        <pre class="folder-tree"><code>
+D:\Workspace\Java-Web\
+├── 01_Learning/    # 技术验证与实验课练手
+├── 02_Active/      # 当前核心项目开发区
+├── 03_Templates/   # 脚本与 README 模板 (一键清理工具所在)
+└── 04_Archive/     # 瘦身后进入“博物馆”的归档项目
+        </code></pre>
+    </div>
 
-<footer style="text-align: center; margin-top: 40px; color: #7f8c8d; font-size: 0.9em;">
-    <p>© 2025 Java Web 项目规划 · 保持代码优雅</p>
-</footer>
+    <div class="content-section">
+        <h2>自动化清理与瘦身</h2>
+        <p>编写 <code>clean_project.py</code> 递归识别编译冗余。配合 <code>.bat</code> 处理 Windows 环境下的 ANSI 编码冲突，实现双击即刻瘦身。</p>
+        <pre><code># 定向清理目标
+TARGETS = ['target', 'node_modules', '.idea', 'dist']
 
+# 空间优化效果
+# Cleaned 324MB in Learning/test-project
+# Total space saved: 1.2GB</code></pre>
+
+        <div class="secret-box">
+            <div class="secret-title">💡 归档秘籍</div>
+            <p style="margin: 0; font-size: 0.95rem;">
+                在将项目移入 <code>04_Archive</code> 前，务必执行清理脚本。将 <code>clean_project.py</code> 和 <code>一键清理.bat</code> 放入想要清理的文件夹下，执行 <code>一键清理.bat</code>。执行完即可把项目文件夹放入 <code>04_Archive</code>。
+            </p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>多工具协同策略</h2>
+        <ul>
+            <li><strong>IntelliJ IDEA</strong>：专注于 <code>backend/</code> 目录，处理 Java 业务逻辑。</li>
+            <li><strong>Cursor / Trae</strong>：打开根目录，利用 AI 扫描全栈上下文，专注前端与 Prompt 调试。</li>
+            <li><strong>Claude Code</strong>：终端实时介入，处理跨文件的快速重构。</li>
+        </ul>
+    </div>
+
+    <div class="content-section">
+        <h2>归档复活流程</h2>
+        <p>所有归档项目必须保留标准 <code>README.md</code>。重启只需两行命令：</p>
+        <pre><code># 后端backend依赖恢复
+                    mvn clean install  
+
+                    # 前端frontend依赖重构
+                    npm install
+                    npm run dev
+        </code></pre>
+    </div>
+
+    <a href="index.html" class="back-link">← 返回主页索引</a>
 </body>
 </html>
