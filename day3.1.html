@@ -15,7 +15,7 @@
             --text-dim: #94a3b8;
             --code-border: #0ea5e9;
             --success-green: #22c55e;
-            --secret-gold: #fbbf24; /* 秘籍专属金 */
+            --secret-gold: #fbbf24;
         }
 
         body {
@@ -28,7 +28,6 @@
             padding: 50px 24px;
         }
 
-        /* 文章头部 */
         .post-header {
             border-bottom: 1px solid #334155;
             padding-bottom: 24px;
@@ -50,7 +49,6 @@
             gap: 8px;
         }
 
-        /* 模块化容器 */
         .content-section {
             background: var(--card-bg);
             padding: 30px;
@@ -78,14 +76,12 @@
             display: inline-block;
         }
 
-        /* 秘籍卡片样式 */
         .secret-box {
             background: rgba(56, 189, 248, 0.05);
             border: 1px dashed var(--primary-blue);
             padding: 20px;
             border-radius: 12px;
             margin: 20px 0;
-            position: relative;
         }
 
         .secret-title {
@@ -97,7 +93,6 @@
             margin-bottom: 10px;
         }
 
-        /* 树状图与代码块 */
         pre {
             background: #000000;
             padding: 20px;
@@ -106,8 +101,17 @@
             color: var(--accent-cyan);
             border: 1px solid var(--code-border);
             font-family: 'Fira Code', 'Cascadia Code', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
+            margin: 15px 0;
+        }
+
+        .code-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: -10px;
+            display: block;
+            margin-left: 5px;
         }
 
         code {
@@ -121,7 +125,6 @@
             color: var(--success-green);
         }
 
-        /* 列表增强 */
         ul {
             padding-left: 20px;
             list-style: none;
@@ -139,7 +142,6 @@
             color: var(--primary-blue);
         }
 
-        /* 返回链接 */
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -177,30 +179,35 @@
 
     <div class="content-section">
         <h2>项目背景与痛点</h2>
-        <p>随着开发深入，频繁切换 <code>IntelliJ IDEA</code>、<code>Cursor</code> 和 <code>Trae</code>。手动清理 <code>node_modules</code> 和 <code>target</code> 耗时费力，且归档项目难以二次快速复活。需要一套标准的“自动化”管理逻辑。</p>
+        <p>面对多 IDE 协作（IntelliJ, Cursor, Trae）带来的混乱，手动清理冗余文件不仅低效，且极易导致磁盘空间告急。本体系旨在通过标准化流程实现项目的“快速瘦身”与“完美归档”。</p>
     </div>
 
     <div class="content-section">
         <h2>物理层级规范</h2>
-        <p>在高速 SSD 上建立统一的工作空间，按生命周期划分：</p>
+        <p>物理存放建议在非系统盘根目录（如 <code>D:\Workspace\Java-Web\</code>）：</p>
         <pre class="folder-tree"><code>
-D:\Workspace\Java-Web\
-├── 01_Learning/    # 技术验证与实验课练手
-├── 02_Active/      # 当前核心项目开发区
-├── 03_Templates/   # 脚本与 README 模板 (一键清理工具所在)
-└── 04_Archive/     # 瘦身后进入“博物馆”的归档项目
+├── 01_Learning/    # 技术验证、实验课练手项目
+├── 02_Active/      # 当前核心正在开发区
+├── 03_Templates/   # 脚本、README 模板及脚手架
+└── 04_Archive/     # 瘦身归档区，存放已完成项目
         </code></pre>
     </div>
 
     <div class="content-section">
-        <h2>自动化清理与瘦身</h2>
-        <p>编写 <code>clean_project.py</code> 递归识别编译冗余。配合 <code>.bat</code> 处理 Windows 环境下的 ANSI 编码冲突，实现双击即刻瘦身。</p>
-        <pre><code># 定向清理目标
-TARGETS = ['target', 'node_modules', '.idea', 'dist']
+        <h2>自动化工具实现</h2>
+        <p>通过 Python 脚本实现递归深度清理，并利用 Windows 批处理文件简化操作逻辑。</p>
+        
+        <span class="code-label">一键清理并准备归档.bat</span>
+        <pre><code>@echo off
+title Java Web 项目清理工具
+python clean_project.py
+pause</code></pre>
 
-# 空间优化效果
-# Cleaned 324MB in Learning/test-project
-# Total space saved: 1.2GB</code></pre>
+        <span class="code-label">clean_project.py (核心清理代码)</span>
+        <pre><code>import os, shutil
+TARGETS = ['target', 'node_modules', '.idea', 'dist', 'build']
+# 逻辑：递归扫描所有子目录，匹配 TARGETS 并执行删除
+# 注意：清理前请务必先关闭相关的 IDE 程序</code></pre>
 
         <div class="secret-box">
             <div class="secret-title">💡 归档秘籍</div>
@@ -213,21 +220,21 @@ TARGETS = ['target', 'node_modules', '.idea', 'dist']
     <div class="content-section">
         <h2>多工具协同策略</h2>
         <ul>
-            <li><strong>IntelliJ IDEA</strong>：专注于 <code>backend/</code> 目录，处理 Java 业务逻辑。</li>
-            <li><strong>Cursor / Trae</strong>：打开根目录，利用 AI 扫描全栈上下文，专注前端与 Prompt 调试。</li>
-            <li><strong>Claude Code</strong>：终端实时介入，处理跨文件的快速重构。</li>
+            <li><strong>IntelliJ IDEA</strong>：专注于 <code>backend/</code> 业务逻辑处理。</li>
+            <li><strong>Cursor / Trae</strong>：打开项目根目录，利用全栈上下文辅助前端开发与 Prompt 调试。</li>
+            <li><strong>Claude Code</strong>：终端实时介入，处理跨文件的快速重构与复杂逻辑修改。</li>
         </ul>
     </div>
 
     <div class="content-section">
         <h2>归档复活流程</h2>
-        <p>所有归档项目必须保留标准 <code>README.md</code>。重启只需两行命令：</p>
-        <pre><code># 后端backend依赖恢复
-                    mvn clean install  
+        <p>从 <code>Archive</code> 恢复项目仅需三秒：</p>
+        <pre><code># 后端恢复
+mvn clean install  
 
-                    # 前端frontend依赖重构
-                    npm install
-                    npm run dev
+# 前端恢复
+npm install
+npm run dev
         </code></pre>
     </div>
 
