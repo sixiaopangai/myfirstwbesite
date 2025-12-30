@@ -213,16 +213,80 @@
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
             <pre><code>@echo off
 title Java Web 项目清理工具
+color 0A
+
+echo ======================================================
+echo       Java Web 项目一键清理 (准备归档)
+echo ======================================================
+echo.
+echo 该操作将删除当前目录下所有项目的:
+echo [target], [node_modules], [.idea], [dist], [build]
+echo.
+echo 注意：这不会删除你的源码，只删除编译生成的文件。
+echo.
+
+:: 检查 Python 是否安装
+python --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [错误] 未检测到 Python，请先安装 Python 并添加到环境变量！
+    pause
+    exit
+)
+
+:: 运行 Python 脚本
 python clean_project.py
+
+echo.
+echo ======================================================
+echo 清理任务结束，现在你可以安全地将项目移至 Archive 文件夹。
+echo ======================================================
 pause</code></pre>
         </div>
 
         <span class="code-label">clean_project.py (核心清理代码)</span>
         <div class="code-wrapper">
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><code>import os, shutil
-TARGETS = ['target', 'node_modules', '.idea', 'dist', 'build']
-# 逻辑：递归扫描所有子目录，匹配 TARGETS 并执行删除</code></pre>
+            <pre><code>import os
+import shutil
+
+# 定义需要清理的文件夹名称
+TARGET_FOLDERS = ['target', 'node_modules', '.idea', 'dist', 'build', '.next']
+
+def clean_workspace(root_path):
+    print(f"--- 开始扫描路径: {root_path} ---")
+    
+    deleted_count = 0
+    total_size = 0
+
+    for root, dirs, files in os.walk(root_path):
+        for dir_name in list(dirs):
+            if dir_name in TARGET_FOLDERS:
+                full_path = os.path.join(root, dir_name)
+                
+                # 计算大约节省的空间（可选）
+                try:
+                    for path, _, files_in_dir in os.walk(full_path):
+                        for f in files_in_dir:
+                            total_size += os.path.getsize(os.path.join(path, f))
+                    
+                    print(f"[找到垃圾] 准备删除: {full_path}")
+                    shutil.rmtree(full_path)
+                    deleted_count += 1
+                except Exception as e:
+                    print(f"无法删除 {full_path}: {e}")
+
+    print("---------------------------------------")
+    print(f"清理完毕！共删除 {deleted_count} 个文件夹。")
+    print(f"释放空间: {total_size / (1024*1024):.2f} MB")
+
+if __name__ == "__main__":
+    # 默认清理当前脚本所在的目录
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    confirm = input(f"确定要清理目录 {current_dir} 下的所有项目缓存吗？(y/n): ")
+    if confirm.lower() == 'y':
+        clean_workspace(current_dir)
+    else:
+        print("已取消操作。")</code></pre>
         </div>
 
         <div class="secret-box">
