@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3.2 - 从“文档先行”到“云端同步”</title>
+    <style>
+        /* 极客森林绿配色方案 */
+        :root {
+            --bg-color: #022c22;        /* 极深绿背景 */
+            --card-bg: #064e3b;         /* 深绿卡片背景 */
+            --primary-green: #10b981;   /* 翠绿色 */
+            --accent-mint: #a7f3d0;     /* 薄荷绿强调色 */
+            --text-main: #ecfdf5;       /* 浅绿文字 */
+            --text-dim: #6ee7b7;        /* 灰绿文字 */
+            --code-border: #059669;     /* 代码边框绿 */
+            --success-lime: #84cc16;    /* 亮柠檬绿 */
+            --secret-gold: #fbbf24;     /* 琥珀金 */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background: var(--bg-color);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 50px 24px;
+        }
+
+        .post-header {
+            border-bottom: 1px solid #065f46;
+            padding-bottom: 24px;
+            margin-bottom: 40px;
+        }
+
+        .post-title {
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            margin: 0 0 12px 0;
+            letter-spacing: -0.025em;
+        }
+
+        .post-date {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #065f46;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            color: var(--accent-mint);
+            font-size: 1.5rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: "";
+            width: 4px;
+            height: 24px;
+            background: var(--primary-green);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .code-wrapper {
+            position: relative;
+            margin: 15px 0;
+        }
+
+        pre {
+            background: #001a14;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            color: var(--accent-mint);
+            border: 1px solid var(--code-border);
+            font-family: 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-green);
+            color: #000;
+        }
+
+        .secret-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px dashed var(--primary-green);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .secret-title {
+            color: var(--secret-gold);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .code-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+            display: block;
+            margin-left: 5px;
+        }
+
+        code {
+            color: var(--primary-green);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 40px;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: var(--accent-mint);
+        }
+
+        .tag {
+            background: #065f46;
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="post-header">
+        <h1 class="post-title">Day 3.2：Git 进阶：学生管理系统全设计稿同步</h1>
+        <div class="post-date">
+            <span>📅 2025年12月31日</span>
+            <span class="tag">RBAC</span>
+            <span class="tag">Git-Master</span>
+            <span class="tag">Sync</span>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>今日成果：全流程设计闭环</h2>
+        <p>今日成功完成了“学生管理系统”的全套设计文档，涵盖了基于 <b>RBAC (基于角色的访问控制)</b> 的权限说明、接口定义及数据库模型。</p>
+    </div>
+
+    <div class="content-section">
+        <h2>实战回顾：完整的 Git 推送流程</h2>
+        <p>本项目采用了“本地初始化 -> 代理调优 -> 云端同步”的专业路径：</p>
+        
+        <span class="code-label">Step 1: 本地仓库初始化与提交</span>
+        <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>git init
+git add .
+git commit -m "docs: 初始版本设计文档"
+git branch -M main</code></pre>
+        </div>
+
+        <span class="code-label">Step 2: 解决 Connection Reset 代理难题</span>
+        <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code># 清除异常代理端口 (如 3888)
+git config --global --unset http.proxy
+git config --global --unset https.proxy</code></pre>
+        </div>
+
+        <span class="code-label">Step 3: 关联并强制推送到 GitHub</span>
+        <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>git remote add origin https://github.com/sixiaopangai/student-management-system.git
+git push -u origin main</code></pre>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>系统核心架构图</h2>
+        <p>在权限设计上，明确了四类核心角色的操作边界：</p>
+        <div class="secret-box">
+            <div class="secret-title">💡 权限职责速览</div>
+            <p style="margin: 0; font-size: 0.95rem;">
+                - <b>学生 (Student)</b>: 申请加入/退出班级<br>
+                - <b>教师 (Teacher)</b>: 管理个人课程班级学生<br>
+                - <b>辅导员 (Counselor)</b>: 管理专业班级与创建学生账号<br>
+                - <b>管理员 (Admin)</b>: 拥有系统全局最高权限
+            </p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>明日预告：M1 环境初始化</h2>
+        <p>下一步将启动正式的代码开发，完成前后端脚手架的搭建。</p>
+    </div>
+
+    <a href="index.html" class="back-link">← 返回作品集索引</a>
+
+    <script>
+        function copyCode(button) {
+            const pre = button.nextElementSibling;
+            const text = pre.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copied!';
+                button.style.background = '#84cc16'; /* 亮柠檬绿反馈 */
+                button.style.borderColor = '#84cc16';
+                button.style.color = '#000';
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = 'rgba(16, 185, 129, 0.2)';
+                    button.style.borderColor = '#10b981';
+                    button.style.color = '#10b981';
+                }, 2000);
+            }).catch(err => {
+                console.error('无法复制代码: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
